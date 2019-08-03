@@ -12,11 +12,11 @@ node {
         rtMaven.tool = 'maven' // Tool name from Jenkins configuration
         rtMaven.run pom: 'pom.xml', goals: 'clean compile test'
     }
-    
+    stage ('sonarqube') {
     withSonarQubeEnv(credentialsId: 'sonarqubeid') {
         rtMaven.tool = 'maven' // Tool name from Jenkins configuration
         rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar'
-    
+      }
     } 
     stage("Quality Gate"){
           timeout(time: 10, unit: 'MINUTES') {
