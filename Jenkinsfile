@@ -28,6 +28,19 @@ node {
         rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
         rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
      }
+    
+    stage('Quality Gate'){
+          timeout(time: 5, unit: 'MINUTES') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+              else
+              {
+                  success "Quality gate check is successfully complete: ${qg.status}"
+               }
+          }
+     }
             
     stage ('Install') {
         rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
