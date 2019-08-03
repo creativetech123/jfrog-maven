@@ -18,15 +18,23 @@ node {
         rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar'
     
     }
-    stage('Quality Gate'){
-          timeout(time: 5, unit: 'MINUTES') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
-              
+    stage("Quality Gate"){
+        def ceTask
+        timeout(time: 1, unit: 'MINUTES') {
+          waitUntil {
+            ceTask = jsonParse(url, sonarBasicAuth)
+            echo ceTask.toString()
+            return "SUCCESS".equals(ceTask["task"]["status"])
           }
-     }
+        }
+        url = new URL(sonarServerUrl + "/api/qualitygates/project_status?analysisId=" + ceTask["task"]["analysisId"])
+        def qualitygate =  jsonParse(url, sonarBasicAuth)
+        echo qualitygate.toString()
+        if ("ERROR".equals(qualitygate["projectStatus"]["status"])) {
+          error  "Quality Gate Failure"
+        }
+        echo  "Quality Gate Success"
+      }
     
     
     stage ('Artifactory configuration') {
