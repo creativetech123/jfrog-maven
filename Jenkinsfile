@@ -12,12 +12,20 @@ node {
         rtMaven.tool = 'maven' // Tool name from Jenkins configuration
         rtMaven.run pom: 'pom.xml', goals: 'clean compile test'
     }
-    stage ('sonarqube') {
+    
     withSonarQubeEnv(credentialsId: 'sonarqubeid') {
         rtMaven.tool = 'maven' // Tool name from Jenkins configuration
         rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar'
-        }
+    
     } 
+    stage("Quality Gate"){
+          timeout(time: 10, unit: 'MINUTES') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+    }
     
     stage ('Artifactory configuration') {
         // Obtain an Artifactory server instance, defined in Jenkins --> Manage..:
