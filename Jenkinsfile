@@ -28,6 +28,7 @@ node {
               {
                   success "Quality gate check is successfully complete: ${qg.status}"
           }
+          }
  }
     
     stage ('Artifactory configuration') {
@@ -50,6 +51,5 @@ node {
     stage ('Publish build info') {
         server.publishBuildInfo buildInfo
     }
-    
        
 }
