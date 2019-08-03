@@ -5,8 +5,6 @@
 # Maven – JaCoCo code coverage example
 Maven, JUnit 5 + JaCoCo example.
 
-#Project Link - https://www.mkyong.com/maven/maven-jacoco-code-coverage-example/
-
 ## How to run this project?
 ```
 $ https://github.com/creativetech123/jfrog-maven.git
