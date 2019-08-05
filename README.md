@@ -1,5 +1,7 @@
 # Maven-example
-[![Build Status](http://ec2-52-87-226-110.compute-1.amazonaws.com:8080/buildStatus/icon?job=jfrog-maven)](http://ec2-52-87-226-110.compute-1.amazonaws.com:8080/job/jfrog-maven/)
+[![Build Status](http://ec2-34-238-49-41.compute-1.amazonaws.com:8080/buildStatus/icon?job=jfrog-maven)](http://ec2-34-238-49-41.compute-1.amazonaws.com:8080/job/jfrog-maven/)
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=org.jfrog%3Amani)](https://sonarcloud.io/dashboard?id=org.jfrog%3Amani)
 
 
 # Maven – JaCoCo code coverage example
